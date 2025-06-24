@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Task 3 - Advanced Styling and JS</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      margin: 0;
+      background-color: #f0f8ff;
+    }
+
+    h1 {
+      text-align: center;
+      color: #05445E;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    /* IMAGE CAROUSEL */
+    .carousel {
+      width: 300px;
+      height: 200px;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      position: relative;
+    }
+
+    .carousel img {
+      width: 100%;
+      height: 100%;
+      display: none;
+    }
+
+    .carousel img.active {
+      display: block;
+    }
+
+    /* JOKE BOX */
+    .joke-box {
+      background: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 400px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      text-align: center;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      background-color: #189AB4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn:hover {
+      background-color: #05445E;
+    }
+
+    /* MEDIA QUERIES */
+    @media (min-width: 768px) {
+      .container {
+        flex-direction: row;
+        justify-content: space-around;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Task 3 - Styling & JavaScript</h1>
+
+  <div class="container">
+    <!-- Carousel -->
+    <div class="carousel">
+      <img src="https://via.placeholder.com/300x200?text=Slide+1" class="active">
+      <img src="https://via.placeholder.com/300x200?text=Slide+2">
+      <img src="https://via.placeholder.com/300x200?text=Slide+3">
+    </div>
+
+    <!-- Joke API Box -->
+    <div class="joke-box">
+      <h3>Click Below for a Joke!</h3>
+      <p id="joke">😂 Ready to laugh?</p>
+      <button class="btn" onclick="fetchJoke()">Get Joke</button>
+    </div>
+  </div>
+
+  <script>
+    // Image Carousel Script
+    const images = document.querySelectorAll('.carousel img');
+    let index = 0;
+
+    setInterval(() => {
+      images[index].classList.remove('active');
+      index = (index + 1) % images.length;
+      images[index].classList.add('active');
+    }, 3000);
+
+    // Fetch Joke from API
+    function fetchJoke() {
+      fetch('https://official-joke-api.appspot.com/random_joke')
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById('joke').textContent = `${data.setup} 🤔 ${data.punchline}`;
+        })
+        .catch(err => {
+          document.getElementById('joke').textContent = 'Failed to load joke. Try again!';
+        });
+    }
+  </script>
+</body>
+</html>
